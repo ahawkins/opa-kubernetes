@@ -26,7 +26,6 @@ deny[msg] {
 	msg = sprintf("[DPL-01] Deployment %s must specify readiness probes for all containers", [ name ])
 }
 
-
 matching_label_selector {
 	selectors := { [ label, value ] | some label; value := input.spec.selector.matchLabels[label] }
 	labels := { [ label, value ] | some label; value := input.spec.template.metadata.labels[label] }

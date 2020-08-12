@@ -1,7 +1,7 @@
 #!/usr/bin/env basts
 
 setup() {
-	run conftest test test/fixtures/pass/*
+	run conftest test test/fixtures/pass/deployment.yml test/fixtures/pass/job.yml
 	[ $status -eq 0 ]
 }
 

@@ -1,8 +1,7 @@
 #!/usr/bin/env basts
 
 setup() {
-	run conftest test \
-		--combine --namespace combined test/fixtures/pass/*
+	run conftest test test/fixtures/pass/job.yml
 	[ $status -eq 0 ]
 }
 

@@ -1,8 +1,7 @@
 #!/usr/bin/env basts
 
 setup() {
-	run conftest test \
-		--combine --namespace combined test/fixtures/pass/*
+	run conftest test test/fixtures/pass/horizontal_pod_autoscaler.yml
 	[ $status -eq 0 ]
 }
 

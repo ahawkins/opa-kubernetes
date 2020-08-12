@@ -2,8 +2,8 @@
 
 ## Metadata
 
-- MTA-01: labels set
-- MTA-02: no `namespace` set
+- MTA-01: no `namespace` set
+- MTA-02: mandatory labels
 
 ## Workloads
 

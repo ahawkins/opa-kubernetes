@@ -1,0 +1,6 @@
+- command: update
+  path: 'spec.template.spec.volumes[+]'
+  value:
+    name: junk
+    configMap:
+      name: junk

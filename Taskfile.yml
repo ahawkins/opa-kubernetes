@@ -1,0 +1,14 @@
+version: '2'
+
+tasks:
+  test:kubeval:
+    cmds:
+      - kubeval --strict -d test/fixtures/pass
+
+  test:kubectl:
+    cmds:
+      - kubectl apply --dry-run --validate -R -f test/fixtures/pass
+
+  test:acceptance:
+    cmds:
+      - bats test/*_test.bats

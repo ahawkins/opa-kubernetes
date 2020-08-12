@@ -1,0 +1,4 @@
+- command: update
+  path: 'spec.selector'
+  value:
+    app: junk

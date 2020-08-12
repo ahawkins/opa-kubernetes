@@ -137,9 +137,7 @@ setup() {
 	fixture="$(mktemp -d)"
 	cp -r test/fixtures/pass/ "${fixture}"
 
-	yq w -i -s \
-		test/script/insert_invalid_selector.yml \
-		"${fixture}/service.yml"
+	yq w -i "${fixture}/service.yml" 'spec.selector.app' junk
 
 	run conftest test \
 		--combine --namespace combined \

@@ -5,6 +5,7 @@ setup() {
 		--combine --namespace combined test/fixtures/pass/*
 	[ $status -eq 0 ]
 }
+
 @test "CMB-01 - Deployment container ConfigMap" {
 	fixture="$(mktemp -d)"
 	cp -r test/fixtures/pass/ "${fixture}"

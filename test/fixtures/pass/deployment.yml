@@ -24,14 +24,6 @@ spec:
         app.kubernetes.io/component: tests
         app.kubernetes.io/part-of: dummy
         app.kubernetes.io/managed-by: hand
-      annotations:
-        ad.datadoghq.com/tags: |
-          {
-            "env": "production",
-            "service": "bar"
-          }
-        ad.datadoghq.com/dummy.logs: |
-          { "source": "docker", "service": "dummy" }
     spec:
       volumes:
         - name: secrets

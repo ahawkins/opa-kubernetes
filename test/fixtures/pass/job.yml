@@ -20,9 +20,6 @@ spec:
         app.kubernetes.io/component: tests
         app.kubernetes.io/part-of: dummy
         app.kubernetes.io/managed-by: hand
-      annotations:
-        ad.datadoghq.com/dummy.logs: '[{"source":"docker","service":"{{ .Values.name }}-preflight-check"}]'
-        ad.datadoghq.com/tags: '{ "env": "{{ .Values.config.DD_ENV }}", "service":"{{ .Values.name }}-preflight-check"}'
     spec:
       restartPolicy: Never
       containers:

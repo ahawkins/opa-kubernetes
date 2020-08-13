@@ -3,6 +3,13 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: test
+  labels:
+    app.kubernetes.io/name: test
+    app.kubernetes.io/instance: test-1
+    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/component: tests
+    app.kubernetes.io/part-of: dummy
+    app.kubernetes.io/managed-by: hand
 spec:
   scaleTargetRef:
     apiVersion: apps/v1beta1

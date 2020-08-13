@@ -4,12 +4,12 @@ kind: Deployment
 metadata:
   name: test
   labels:
-    app.kubernetes.io/name: name
-    app.kubernetes.io/instance: instance
-    app.kubernetes.io/version: version
-    app.kubernetes.io/component: component
-    app.kubernetes.io/part-of: part-of
-    app.kubernetes.io/managed-by: managed-by
+    app.kubernetes.io/name: test
+    app.kubernetes.io/instance: test-1
+    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/component: tests
+    app.kubernetes.io/part-of: dummy
+    app.kubernetes.io/managed-by: hand
 spec:
   selector:
     matchLabels:
@@ -18,6 +18,12 @@ spec:
     metadata:
       labels:
         app: test
+        app.kubernetes.io/name: test
+        app.kubernetes.io/instance: test-1
+        app.kubernetes.io/version: 0.1.0
+        app.kubernetes.io/component: tests
+        app.kubernetes.io/part-of: dummy
+        app.kubernetes.io/managed-by: hand
       annotations:
         ad.datadoghq.com/tags: |
           {

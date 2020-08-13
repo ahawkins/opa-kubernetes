@@ -4,6 +4,14 @@ import data.kubernetes
 
 name = input.metadata.name
 
+container_probes[p] {
+	p := input.livenessProbe[_]
+}
+
+container_probes[p] {
+	p := input.readinessProbe[_]
+}
+
 required_resources {
 	input.resources
 
@@ -23,35 +31,27 @@ required_resources {
 
 deny[msg] {
 	kubernetes.is_workload
-	containers := input.spec.template.spec.containers[_]
+	template := kubernetes.workload_template(input)
+	containers := template.spec.containers[_]
 	not required_resources with input as containers
 	msg = sprintf("[WRK-01] %s %s must specify valid resources for all containers", [input.kind, name])
 }
 
-valid_volume_mounts {
-	volumes := { volume | volume := input.volumes[_].name }
-	volume_mounts := { volume | volume := input.containers[_].volumeMounts[_].name }
-
-	count(volume_mounts - volumes) == 0
+deny[msg] {
+	kubernetes.is_workload
+	template := kubernetes.workload_template(input)
+	volumes := { volume | volume := template.spec.volumes[_].name }
+	container := template.spec.containers[_]
+	volume_mount := container.volumeMounts[_].name
+	not volumes[volume_mount]
+	msg = sprintf("[WRK-02] %s %s container %s volumeMount %s does not exist", [input.kind, name, container.name, volume_mount])
 }
 
 deny[msg] {
 	kubernetes.is_workload
-	spec := input.spec.template.spec
-	not valid_volume_mounts with input as spec
-	msg = sprintf("[WRK-02] %s %s container volumeMounts must reference volumes", [input.kind, name])
-}
-
-all_volumes_mounted {
-	volumes := { volume | volume := input.volumes[_].name }
-	volume_mounts := { volume | volume := input.containers[_].volumeMounts[_].name }
-
-	count(volume_mounts) == count(volumes)
-}
-
-deny[msg] {
-	kubernetes.is_workload
-	spec := input.spec.template.spec
-	not all_volumes_mounted with input as spec
-	msg = sprintf("[WRK-03] %s %s must mount all declared volumes", [input.kind, name])
+	template := kubernetes.workload_template(input)
+	volume_mounts := { volume | volume := template.spec.containers[_].volumeMounts[_].name }
+	volume := template.spec.volumes[_].name
+	not volume_mounts[volume]
+	msg = sprintf("[WRK-03] %s %s must mount volume %s in a container", [input.kind, name, volume])
 }

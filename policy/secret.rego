@@ -4,20 +4,10 @@ import data.kubernetes
 
 name = input.metadata.name
 
-valid_base64_secret_values {
-	valid_values := {
-		value |
-		some key
-		string_value = input[key].value
-		re_match("^[-A-Za-z0-9+=]{1,50}|=[^=]|={3,}$", string_value)
-		value := string_value
-	}
-
-	count(input) == count(valid_values)
-}
-
 deny[msg] {
 	kubernetes.is_secret
-	not valid_base64_secret_values with input as input.data
-	msg = sprintf("[SEC-01] Secret %s must specify valid Base64 values", [ name ])
+	some key
+	encoded_value := input.data[key]
+	not re_match("^[-A-Za-z0-9+=]{1,50}|=[^=]|={3,}$", encoded_value)
+	msg = sprintf("[SEC-01] Secret %s data key %s must be Base64 encoded", [ name, key ])
 }

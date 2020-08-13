@@ -12,8 +12,6 @@ setup() {
 	yq d -i "${fixture}/secret.yml" 'stringData'
 	yq w -i "${fixture}/secret.yml" 'data.FOO' '@#*$&@#$&#@'
 
-	cat "${fixture}/secret.yml"
-
 	run conftest test "${fixture}/"*
 	[ $status -ne 0 ]
 

@@ -26,7 +26,7 @@ test_label_selector_rules_on_valid_data {
 }
 
 test_matching_label_selector_with_missing_label {
-	not matching_label_selector  with input as {
+	not matching_label_selector with input as {
 		"spec": {
 			"selector": {
 				"matchLabels": {

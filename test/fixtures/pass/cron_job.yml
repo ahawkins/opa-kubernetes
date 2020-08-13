@@ -1,0 +1,41 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: test
+  labels:
+    app.kubernetes.io/name: test
+    app.kubernetes.io/instance: test-1
+    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/component: tests
+    app.kubernetes.io/part-of: dummy
+    app.kubernetes.io/managed-by: hand
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: test
+            app.kubernetes.io/instance: test-1
+            app.kubernetes.io/version: 0.1.0
+            app.kubernetes.io/component: tests
+            app.kubernetes.io/part-of: dummy
+            app.kubernetes.io/managed-by: hand
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: dummmy
+              image: dummy
+              envFrom:
+                - configMapRef:
+                    name: test
+                - secretRef:
+                    name: test
+              resources:
+                requests:
+                  cpu: 1
+                  memory: 512Mi
+                limits:
+                  cpu: 2
+                  memory: 1024Mi

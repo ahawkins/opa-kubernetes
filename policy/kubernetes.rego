@@ -1,8 +1,6 @@
 package kubernetes
 
-valid_environments := { "production", "staging" }
-
-workload_kinds := { "Deployment", "Job" }
+workload_kinds := { "Deployment", "Job", "CronJob" }
 
 is_service {
   input.kind = "Service"
@@ -26,4 +24,12 @@ is_job {
 
 is_workload {
 	workload_kinds[input.kind]
+}
+
+workload_template(entity) = template {
+	template := entity.spec.template
+}
+
+workload_template(entity) = template {
+	template := entity.spec.jobTemplate.spec.template
 }

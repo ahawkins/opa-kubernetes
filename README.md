@@ -4,8 +4,11 @@
 
 - MTA-01: no `namespace` set
 - MTA-02: mandatory labels
+- MTA-03: workload template labels
 
 ## Workloads
+
+Applies to: `Deployment`, `Job`
 
 - WRK-01: containers set resource requests and limits
 - WRK-02: `volumeMount` matches `volume`

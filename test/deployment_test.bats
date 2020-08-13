@@ -41,6 +41,30 @@ setup() {
 	echo "${output[@]}" | grep -qF 'DPL-02'
 }
 
+@test "DPL-02 - empty label selector" {
+	fixture="$(mktemp -d)"
+	cp -r test/fixtures/pass/ "${fixture}"
+
+	yq d -i "${fixture}/deployment.yml" 'spec.selector.matchLabels.app'
+
+	run conftest test "${fixture}/"*
+	[ $status -ne 0 ]
+
+	echo "${output[@]}" | grep -qF 'DPL-02'
+}
+
+@test "DPL-02 - template labels missing" {
+	fixture="$(mktemp -d)"
+	cp -r test/fixtures/pass/ "${fixture}"
+
+	yq d -i "${fixture}/deployment.yml" 'spec.template.metadata.labels'
+
+	run conftest test "${fixture}/"*
+	[ $status -ne 0 ]
+
+	echo "${output[@]}" | grep -qF 'DPL-02'
+}
+
 @test "DPL-03 - containers mismatched HTTP liveness probe port" {
 	fixture="$(mktemp -d)"
 	cp -r test/fixtures/pass/ "${fixture}"

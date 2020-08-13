@@ -22,7 +22,7 @@ Applies to: `Deployment`, `Job`
 
 ## Job
 
-- JOB-02: explicit `backoffLimit` set
+- JOB-01: explicit `backoffLimit` set
 
 ## Secrets
 

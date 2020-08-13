@@ -8,7 +8,7 @@
 
 ## Workloads
 
-Applies to: `Deployment`, `Job`
+Applies to: `Deployment`, `Job`, `CronJob`
 
 - WRK-01: containers set resource requests and limits
 - WRK-02: `volumeMount` matches `volume`

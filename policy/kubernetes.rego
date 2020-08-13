@@ -1,13 +1,13 @@
 package kubernetes
 
-workload_kinds := { "Deployment", "Job", "CronJob" }
+workload_kinds := {"Deployment", "Job", "CronJob"}
 
 is_service {
-  input.kind = "Service"
+	input.kind = "Service"
 }
 
 is_deployment {
-  input.kind = "Deployment"
+	input.kind = "Deployment"
 }
 
 is_hpa {

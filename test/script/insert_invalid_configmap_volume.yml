@@ -1,5 +1,5 @@
 - command: update
-  path: 'spec.template.spec.volumes[+]'
+  path: "spec.template.spec.volumes[+]"
   value:
     name: junk
     configMap:

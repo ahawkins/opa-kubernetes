@@ -1,0 +1,74 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+  labels:
+    app.kubernetes.io/name: test
+    app.kubernetes.io/instance: test-1
+    app.kubernetes.io/version: 0.1.0
+    app.kubernetes.io/component: tests
+    app.kubernetes.io/part-of: dummy
+    app.kubernetes.io/managed-by: hand
+spec:
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+        app.kubernetes.io/name: test
+        app.kubernetes.io/instance: test-1
+        app.kubernetes.io/version: 0.1.0
+        app.kubernetes.io/component: tests
+        app.kubernetes.io/part-of: dummy
+        app.kubernetes.io/managed-by: hand
+      annotations:
+        ad.datadoghq.com/tags: |
+          {
+            "env": "production",
+            "service": "bar"
+          }
+        ad.datadoghq.com/dummy.logs: |
+          { "source": "docker", "service": "dummy" }
+    spec:
+      volumes:
+        - name: secrets
+          secret:
+            secretName: test
+        - name: config
+          configMap:
+            name: test
+      containers:
+        - name: dummy
+          image: dummy
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: test
+            - secretRef:
+                name: test
+          resources:
+            requests:
+              cpu: 1
+              memory: 512Mi
+            limits:
+              cpu: 2
+              memory: 1024Mi
+          readinessProbe:
+            httpGet:
+              path: /_probe/readiness
+              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /_probe/liveness
+              port: 8080
+          volumeMounts:
+            - name: secrets
+              readOnly: true
+              mountPath: /data/secrets
+            - name: config
+              readOnly: true
+              mountPath: /data/config

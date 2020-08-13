@@ -1,85 +1,132 @@
 # Rules
 
+Refer to the acceptance test fixtures of passing examples of:
+
+- [Common rules](test/fixtures/pass)
+- [Datadog rules](test/fixtures/datadog)
+- [User provided data](test/fixtures/data)
+
 ## MTA-01
 
-TODO
+Denies entities with an explicit `namespace`. Namespace should only be
+sepcified by `kubectl apply --namespace`. Using an explicit
+`namespace` creates confusion.
 
 ## MTA-02
 
-TODO
+Entity specifies labels defines [Kubernetes recommended
+labels][labels].
 
 ## MTA-03
 
-TODO
+Entity template specifies labels defines [Kubernetes recommended
+labels][labels].
 
 ## WRK-01
 
-TODO
+Resource `requests` and `limits` such that:
+
+- `requests` <= `limits`
+- CPU specified in floating point. Good: `1`. Bad: `1000m`
+- Memory specified in `Mi` or `Gi`
 
 ## WRK-02
 
-TODO
+Container `volumeMount` names match a declared `volume`
 
 ## WRK-03
 
-TODO
+A declared `volumes` is mounted in at least one container.
 
 ## DPL-01
 
-TODO
+Containers set `livenessProbe` and `readinessProbe` of any type.
 
 ## DPL-02
 
-TODO
-
-## DPL-02
-
-TODO
+`spec.selector.matchLabels` is a subset of
+`spec.template.metadata.labels`. Ensures that a `Deployment` will not
+be rejected by the Kubernetes API for a mismatched selector.
 
 ## DPL-03
 
-TODO
+Container `livenessProbe` and `readinessProbe` that specifies a port
+matches a declared `containerPort`.
 
 ## JOB-01
 
-TODO
+Requires `Jobs` set an explicit `backoffLimit`. The default likely
+does not work in all cases. This forces manifest authors to choose an
+applicable `backoffLimit`.
 
 ## SEC-01
 
-TODO
+`Secret` using `data` specify valid Base64 encoded keys.
 
 ## HPA-01
 
-TODO
+`spec.minReplicas <= spec.maxReplicas`
 
 ## CMB-01
 
-TODO
+Container `envFrom` references a `ConfigMap` or `Secret` declared in
+the manifests.
 
 ## CMB-02
 
-TODO
+Volumes populated from `ConfigMap` or `Secret` match one declared in
+the manifests.
 
 ## CMB-03
 
-TODO
+`Service` label selector matches a `Deployment` template labels.
 
 ## CMB-04
 
-TODO
+`HorizontalPodAutoscaler` scale target matches an entity declared in
+the manifests.
 
 ## CMB-05
 
-TODO
+`Service` target port matches a `containerPort` in the matching
+`Deployment`.
 
 ## CMB-06
 
-TODO
+`Deployment` managed by an HPA does not declare replicas. This
+conflicts with the HPA's settings.
 
 ## DOG-01
 
-TODO
+Workloads specify the `ad.datadoghq.com/tags` annotation.
+
+Validate workloads set specific tags by by providing a data file to
+`conftest`.
+
+```
+# data/datadog_required_tags.yaml
+datadog_required_tags:
+	- environment
+	- service
+```
+
+Next pass the `-d` or `--data` argument to conftest:
+
+```
+conftest test --data data
+```
 
 ## DOG-02
 
-TODO
+Workloads containers specify the `ad.datadoghq.com/$container.logs` annotation.
+
+Example valid annotation:
+
+```
+ad.datadoghq.com/dummy.logs: |
+	[{ "source": "docker", "service": "dummy" }]
+```
+
+Where `dummy` is a declared container.
+
+[labels]: https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/#labels

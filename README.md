@@ -40,3 +40,10 @@ Applies to: `Deployment`, `Job`, `CronJob`
 - CMB-04: `HorizontalPodAutoscaler` scaling target matches a `Deployment`
 - CMB-05: Service port matches container port
 - CMB-06: HPA managed deployment does not set replicas
+
+## DataDog
+
+Applies to: `Deployment`, `Job`, `CronJob`
+
+- DOG-01: Annotated with required tags
+- DOG-02: Containers annotated for log collection

@@ -31,7 +31,7 @@ spec:
             "service": "bar"
           }
         ad.datadoghq.com/dummy.logs: |
-          { "source": "docker", "service": "dummy" }
+          [{ "source": "docker", "service": "dummy" }]
     spec:
       volumes:
         - name: secrets

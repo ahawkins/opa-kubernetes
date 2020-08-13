@@ -1,8 +1,8 @@
-package contrib.datadog
+package datadog
 
 import data.kubernetes
 
-valid_environment_tags := { "production", "staging", "development" }
+valid_environment_tags := { "production", "staging", "development", "test" }
 
 name = input.metadata.name
 
@@ -15,7 +15,9 @@ required_datadog_tags {
 }
 
 deny[msg] {
-  kubernetes.is_deployment
-	not required_datadog_tags with input as input.spec.template.metadata
+  kubernetes.is_workload
+	template := kubernetes.workload_template(input)
+	metadata := template.metadata
+	not required_datadog_tags with input as metadata
   msg = sprintf("[DOG-01] %s must specify required Datadog tags", [name])
 }

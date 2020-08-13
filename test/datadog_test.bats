@@ -1,7 +1,7 @@
 #!/usr/bin/env basts
 
 setup() {
-	run conftest test --namespace datadog test/fixtures/datadog/*
+	run conftest test --namespace datadog -d test/fixtures/data test/fixtures/datadog/*
 	[ $status -eq 0 ]
 }
 
@@ -17,7 +17,7 @@ setup() {
 
 	yq d -i "${fixture}/deployment.yml" 'spec.template.metadata.annotations."ad.datadoghq.com/tags"'
 
-	run conftest test --namespace datadog "${fixture}/"*
+	run conftest test --namespace datadog -d test/fixtures/data "${fixture}/"*
 	[ $status -ne 0 ]
 
 	echo "${output[@]}" | grep -qF 'DOG-01'
@@ -29,7 +29,7 @@ setup() {
 
 	yq w -i "${fixture}/deployment.yml" 'spec.template.metadata.annotations."ad.datadoghq.com/tags"', '{}'
 
-	run conftest test --namespace datadog "${fixture}/"*
+	run conftest test --namespace datadog -d test/fixtures/data "${fixture}/"*
 	[ $status -ne 0 ]
 
 	echo "${output[@]}" | grep -qF 'DOG-01'
@@ -41,7 +41,7 @@ setup() {
 
 	yq d -i "${fixture}/deployment.yml" 'spec.template.metadata.annotations'
 
-	run conftest test --namespace datadog "${fixture}/"*
+	run conftest test --namespace datadog -d test/fixtures/data "${fixture}/"*
 	[ $status -ne 0 ]
 
 	echo "${output[@]}" | grep -qF 'DOG-01'
@@ -53,7 +53,7 @@ setup() {
 
 	yq d -i "${fixture}/job.yml" 'spec.template.metadata.annotations."ad.datadoghq.com/tags"'
 
-	run conftest test --namespace datadog "${fixture}/"*
+	run conftest test --namespace datadog -d test/fixtures/data "${fixture}/"*
 	[ $status -ne 0 ]
 
 	echo "${output[@]}" | grep -qF 'DOG-01'
@@ -65,7 +65,7 @@ setup() {
 
 	yq w -i "${fixture}/job.yml" 'spec.template.metadata.annotations."ad.datadoghq.com/tags"', '{}'
 
-	run conftest test --namespace datadog "${fixture}/"*
+	run conftest test --namespace datadog -d test/fixtures/data "${fixture}/"*
 	[ $status -ne 0 ]
 
 	echo "${output[@]}" | grep -qF 'DOG-01'
@@ -77,7 +77,7 @@ setup() {
 
 	yq d -i "${fixture}/job.yml" 'spec.template.metadata.annotations'
 
-	run conftest test --namespace datadog "${fixture}/"*
+	run conftest test --namespace datadog -d test/fixtures/data "${fixture}/"*
 	[ $status -ne 0 ]
 
 	echo "${output[@]}" | grep -qF 'DOG-01'
@@ -89,7 +89,7 @@ setup() {
 
 	yq d -i "${fixture}/cron_job.yml" 'spec.jobTemplate.spec.template.metadata.annotations."ad.datadoghq.com/tags"'
 
-	run conftest test --namespace datadog "${fixture}/"*
+	run conftest test --namespace datadog -d test/fixtures/data "${fixture}/"*
 	[ $status -ne 0 ]
 
 	echo "${output[@]}" | grep -qF 'DOG-01'
@@ -101,7 +101,7 @@ setup() {
 
 	yq w -i "${fixture}/cron_job.yml" 'spec.jobTemplate.spec.template.metadata.annotations."ad.datadoghq.com/tags"', '{}'
 
-	run conftest test --namespace datadog "${fixture}/"*
+	run conftest test --namespace datadog -d test/fixtures/data "${fixture}/"*
 	[ $status -ne 0 ]
 
 	echo "${output[@]}" | grep -qF 'DOG-01'
@@ -113,7 +113,7 @@ setup() {
 
 	yq d -i "${fixture}/cron_job.yml" 'spec.jobTemplate.spec.template.metadata.annotations'
 
-	run conftest test --namespace datadog "${fixture}/"*
+	run conftest test --namespace datadog -d test/fixtures/data "${fixture}/"*
 	[ $status -ne 0 ]
 
 	echo "${output[@]}" | grep -qF 'DOG-01'

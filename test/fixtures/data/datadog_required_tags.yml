@@ -1,0 +1,3 @@
+datadog_required_tags:
+  - env
+  - service

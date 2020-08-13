@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+source script/util.sh
+
+main() {
+	local -a files=()
+
+	for file in "$@"; do
+		case "${file}" in
+		*.sh)
+			files+=("${file}")
+			;;
+		*)
+			if [ -x "${file}" ]; then
+				if head -n 1 "${file}" | grep -qF bash; then
+					files+=("${file}")
+				fi
+			fi
+			;;
+		esac
+	done
+
+	if [ "${#files}" -ne 0 ]; then
+		log::exec_command shellcheck -x "${files[@]}"
+	fi
+}
+
+main "$@"

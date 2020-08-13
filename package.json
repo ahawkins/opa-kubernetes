@@ -1,0 +1,32 @@
+{
+	"name": "manifest-lint",
+	"version": "0.1.0",
+	"description": "Rego Kubernetes manifest policies",
+	"main": "index.js",
+	"repository": "https://github.com/ahawkins/opa-kubernetes",
+	"author": "adam@hawkins.io",
+	"license": "MIT",
+	"private": false,
+	"devDependencies": {
+		"@commitlint/cli": "^9.1.1",
+		"@commitlint/config-conventional": "^9.1.1",
+		"husky": "^4.2.5",
+		"lint-staged": "^10.2.11",
+		"prettier": "^2.0.5",
+		"prettier-plugin-sh": "^0.5.0"
+	},
+	"lint-staged": {
+		"*.rego": "opa fmt -w",
+		"*": [
+			"script/lint-shellcheck",
+			"script/lint-editorconfig",
+			"prettier --write"
+		]
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged",
+			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+		}
+	}
+}
